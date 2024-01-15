@@ -138,13 +138,13 @@ async def info(event):
 )
 async def _(event):
     result = await event.client(GetAdminedPublicChannelsRequest())
-    r = result.chats
-    output_str = "".join(
-        f"- {channel_obj.title} @{channel_obj.username} \n" for channel_obj in r
-    )
-    if not r:
+    if r := result.chats:
+        output_str = "".join(
+            f"- {channel_obj.title} @{channel_obj.username} \n" for channel_obj in r
+        )
+        await eor(event, output_str)
+    else:
         return await eor(event, "`No username Reserved`")
-    await eor(event, output_str)
 
 
 @ultroid_cmd(
@@ -257,7 +257,7 @@ async def _(event):
     done, key = await get_paste(message)
     if not done:
         return await eor(xx, key)
-    link = "https://spaceb.in/" + key
+    link = f"https://spaceb.in/{key}"
     raw = f"https://spaceb.in/api/v1/documents/{key}/raw"
     reply_text = (
         f"• **Pasted to SpaceBin :** [Space]({link})\n• **Raw Url :** : [Raw]({raw})"
@@ -265,7 +265,7 @@ async def _(event):
     try:
         if event.client._bot:
             return await eor(xx, reply_text)
-        ok = await event.client.inline_query(asst.me.username, "pasta-" + key)
+        ok = await event.client.inline_query(asst.me.username, f"pasta-{key}")
         await ok[0].click(event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True)
         await xx.delete()
     except BaseException as e:
@@ -338,8 +338,7 @@ async def _(event):
         replied_user.user.bot,
         common_chats,
     )
-    chk = is_gbanned(user_id)
-    if chk:
+    if chk := is_gbanned(user_id):
         caption += f"""<b>••Gʟᴏʙᴀʟʟʏ Bᴀɴɴᴇᴅ</b>: <code>True</code>
 <b>••Rᴇᴀsᴏɴ</b>: <code>{chk}</code>"""
     else:
@@ -449,11 +448,11 @@ async def telegraphcmd(event):
         getit = await reply.download_media()
         dar = mediainfo(reply.media)
         if dar == "sticker":
-            os.rename(getit, getit + ".jpg")
-            getit = getit + ".jpg"
+            os.rename(getit, f"{getit}.jpg")
+            getit = f"{getit}.jpg"
         if "document" not in dar:
             try:
-                nn = "https://telegra.ph" + uf(getit)[0]
+                nn = f"https://telegra.ph{uf(getit)[0]}"
                 amsg = f"Uploaded to [Telegraph]({nn}) !"
             except Exception as e:
                 amsg = f"Error : {e}"
@@ -533,7 +532,7 @@ async def ipinfo(event):
     ip = event.text.split(" ")
     ipaddr = ""
     try:
-        ipaddr = "/" + ip[1]
+        ipaddr = f"/{ip[1]}"
     except IndexError:
         ipaddr = ""
     det = await async_searcher(f"https://ipinfo.io{ipaddr}/geo", re_json=True)

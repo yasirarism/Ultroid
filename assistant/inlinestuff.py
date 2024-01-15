@@ -213,8 +213,7 @@ async def _(e):
         await e.answer(
             [], switch_pm="Mod Apps Search. Enter app name!", switch_pm_param="start"
         )
-    page = 1
-    start = (page - 1) * 3 + 1
+    start = 0 * 3 + 1
     da = choice([api1, api2, api3])
     url = f"https://www.googleapis.com/customsearch/v1?key={da}&cx=25b3b50edb928435b&q={quer}&start={start}"
     data = requests.get(url).json()
@@ -375,7 +374,7 @@ async def piston_run(event):
         )
         return await event.answer([result])
     if not PISTON_LANGS:
-        se = await async_searcher(PISTON_URI + "runtimes", re_json=True)
+        se = await async_searcher(f"{PISTON_URI}runtimes", re_json=True)
         PISTON_LANGS.update({lang.pop("language"): lang for lang in se})
     if lang in PISTON_LANGS.keys():
         version = PISTON_LANGS[lang]["version"]
@@ -388,14 +387,18 @@ async def piston_run(event):
         return await event.answer([result])
     output = (
         await async_searcher(
-            PISTON_URI + "execute",
+            f"{PISTON_URI}execute",
             post=True,
-            json={"language": lang, "version": version, "files": [{"content": code}]},
+            json={
+                "language": lang,
+                "version": version,
+                "files": [{"content": code}],
+            },
             re_json=True,
         )
     )["run"]["output"] or get_string("instu_4")
     if len(output) > 3000:
-        output = output[:3000] + "..."
+        output = f"{output[:3000]}..."
     result = await event.builder.article(
         title="Result",
         description=output,

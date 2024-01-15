@@ -58,8 +58,7 @@ async def rf(e):
 
 @ultroid_cmd(pattern="listblacklist$", admins_only=True)
 async def lsnote(e):
-    x = list_blacklist(e.chat_id)
-    if x:
+    if x := list_blacklist(e.chat_id):
         sd = get_string("blk_5")
         return await eor(e, sd + x)
     await eor(e, get_string("blk_6"))
@@ -67,8 +66,7 @@ async def lsnote(e):
 
 @ultroid_bot.on(events.NewMessage(incoming=True))
 async def bl(e):
-    x = get_blacklist(e.chat_id)
-    if x:
+    if x := get_blacklist(e.chat_id):
         for z in e.text.lower().split():
             for zz in x:
                 if z == zz:

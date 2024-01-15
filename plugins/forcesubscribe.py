@@ -61,17 +61,17 @@ async def addfor(e):
     except BaseException:
         return await eor(e, get_string("fsub_2"), time=5)
     if not str(match).startswith("-100"):
-        match = int("-100" + str(match))
+        match = int(f"-100{str(match)}")
     add_forcesub(e.chat_id, match)
     await eor(e, "Added ForceSub in This Chat !")
 
 
 @ultroid_cmd(pattern="remfsub$")
 async def remor(e):
-    res = rem_forcesub(e.chat_id)
-    if not res:
+    if res := rem_forcesub(e.chat_id):
+        await eor(e, "Removed ForceSub...")
+    else:
         return await eor(e, get_string("fsub_3"), time=5)
-    await eor(e, "Removed ForceSub...")
 
 
 @ultroid_cmd(pattern="checkfsub$")
@@ -94,7 +94,7 @@ async def fcall(e):
     if not cl.username:
         el = (await ultroid_bot(ExportChatInviteRequest(cl))).link
     else:
-        el = "https://t.me/" + cl.username
+        el = f"https://t.me/{cl.username}"
     res = [
         await e.builder.article(
             title="forcesub",

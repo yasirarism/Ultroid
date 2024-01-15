@@ -77,7 +77,7 @@ async def _(e):
     xx = await eor(e, get_string("com_1"))
     try:
         match = e.text.split(" ", maxsplit=1)[1]
-        chat = "-100" + str(await get_user_id(match))
+        chat = f"-100{str(await get_user_id(match))}"
     except IndexError:
         chat = e.chat_id
     try:
@@ -169,7 +169,7 @@ async def _(e):
             created_chat_id = r.chats[0].id
             if username:
                 await e.client(UpdateUsernameRequest(created_chat_id, username))
-                result = "https://t.me/" + username
+                result = f"https://t.me/{username}"
             else:
                 result = (
                     await e.client(
@@ -219,7 +219,7 @@ async def _(ult):
         await ult.client(EditPhotoRequest(chat, file))
         await eor(ult, "`Group Photo has Successfully Changed !`", time=5)
     except Exception as ex:
-        await eor(ult, "Error occured.\n`{}`".format(str(ex)), time=5)
+        await eor(ult, f"Error occured.\n`{str(ex)}`", time=5)
     os.remove(replfile)
 
 
@@ -231,9 +231,7 @@ async def _(ult):
 )
 async def _(ult):
     match = ult.pattern_match.group(1)
-    chat = ult.chat_id
-    if not ult.client._bot and match:
-        chat = match
+    chat = match if not ult.client._bot and match else ult.chat_id
     try:
         await ult.client(EditPhotoRequest(chat, types.InputChatPhotoEmpty()))
         text = "`Removed Chat Photo..`"

@@ -37,7 +37,7 @@ from . import *
 async def auth_group(event):
     try:
         key = event.text.split(" ", maxsplit=1)[1]
-        admins = bool("admins" in key)
+        admins = "admins" in key
     except IndexError:
         admins = True
     chat = event.chat_id

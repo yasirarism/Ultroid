@@ -32,7 +32,7 @@ async def mean(event):
     wrd = event.pattern_match.group(1)
     if not wrd:
         return await eor(event, get_string("wrd_4"))
-    url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + wrd
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{wrd}"
     out = await async_searcher(url, re_json=True)
     try:
         return await eor(event, f'**{out["title"]}**')

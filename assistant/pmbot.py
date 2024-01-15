@@ -47,7 +47,7 @@ async def on_new_mssg(event):
                 try:
                     TAHC_ = await event.client.get_entity(chat)
                     if hasattr(TAHC_, "username") and TAHC_.username:
-                        uri = "t.me/" + TAHC_.username
+                        uri = f"t.me/{TAHC_.username}"
                     elif CACHE.get(chat):
                         uri = CACHE[chat]
                     else:

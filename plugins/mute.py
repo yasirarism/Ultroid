@@ -75,7 +75,7 @@ async def startmute(event):
         mute(chat_id, userid)
         await eor(xx, "`Successfully muted...`", time=3)
     except Exception as e:
-        await eor(xx, "Error: " + f"`{e}`", time=5)
+        await eor(xx, f"Error: `{e}`", time=5)
 
 
 @ultroid_cmd(
@@ -107,7 +107,7 @@ async def endmute(event):
         unmute(chat_id, userid)
         await eor(xx, "`Successfully unmuted...`", time=3)
     except Exception as e:
-        await eor(xx, "Error: " + f"`{e}`", time=5)
+        await eor(xx, f"Error: `{e}`", time=5)
 
 
 @ultroid_cmd(

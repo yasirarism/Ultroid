@@ -66,11 +66,11 @@ async def daudtoid(e):
     dl = r.file.name
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f"resources/downloads/{dl}",
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f"Downloading {dl}...",
     )
     File.append(file.name)
     await xxx.edit(get_string("spcltool_2"))
@@ -91,24 +91,18 @@ async def adaudroid(e):
     dl = r.file.name
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f"resources/downloads/{dl}",
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f"Downloading {dl}...",
     )
     await xxx.edit(get_string("spcltool_5"))
     await bash(
         f'ffmpeg -i "{file.name}" -i "{File[0]}" -shortest -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
     )
     out = "output.mp4"
-    mmmm = await uploader(
-        out,
-        out,
-        time.time(),
-        xxx,
-        "Uploading " + out + "...",
-    )
+    mmmm = await uploader(out, out, time.time(), xxx, f"Uploading {out}...")
     data = await metadata(out)
     width = data["width"]
     height = data["height"]
@@ -174,7 +168,7 @@ async def hbd(event):
     mi = int(pehl)
     sec = (pehl - mi) * 60
     slive = int(sec)
-    y = int(s) + int(saal) + 1
+    y = int(s) + saal + 1
     m = int(r)
     brth = dt(y, m, day)
     cm = dt(abhi.year, brth.month, brth.day)
@@ -187,9 +181,7 @@ async def hbd(event):
         hp = f"{okk} Days Left 🥳"
     elif dan > 0:
         hp = f"{ish} Days Left 🥳"
-    if month == "12":
-        sign = "Sagittarius" if (day < 22) else "Capricorn"
-    elif month == "01":
+    if month == "01":
         sign = "Capricorn" if (day < 20) else "Aquarius"
     elif month == "02":
         sign = "Aquarius" if (day < 19) else "Pisces"
@@ -211,6 +203,8 @@ async def hbd(event):
         sign = "Libra" if (day < 23) else "Scorpion"
     elif month == "11":
         sign = "Scorpio" if (day < 22) else "Sagittarius"
+    elif month == "12":
+        sign = "Sagittarius" if (day < 22) else "Capricorn"
     sign = f"{sign}"
     params = (("sign", sign), ("today", day))
     json = await async_searcher(
@@ -256,7 +250,7 @@ async def _(event):
         return await eor(event, "`Give something to search`")
     uu = await eor(event, get_string("com_1"))
     z = bs(
-        await async_searcher("https://combot.org/telegram/stickers?q=" + x),
+        await async_searcher(f"https://combot.org/telegram/stickers?q={x}"),
         "html.parser",
     )
     packs = z.find_all("div", "sticker-pack__header")

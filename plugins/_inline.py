@@ -79,8 +79,7 @@ async def inline_handler(event):
     PLUGINS = HELP["Official"] if "Official" in HELP.keys() else []
     ADDONS = HELP["Addons"] if "Addons" in HELP.keys() else []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     text = get_string("inline_4").format(
         OWNER_NAME,
         len(PLUGINS),
@@ -104,7 +103,7 @@ async def inline_handler(event):
 @in_pattern("pasta", owner=True)
 async def _(event):
     ok = event.text.split("-")[1]
-    link = "https://spaceb.in/" + ok
+    link = f"https://spaceb.in/{ok}"
     raw = f"https://spaceb.in/api/v1/documents/{ok}/raw"
     result = await event.builder.article(
         title="Paste",
@@ -125,8 +124,7 @@ async def setting(event):
     PLUGINS = HELP["Official"] if "Official" in HELP.keys() else []
     ADDONS = HELP["Addons"] if "Addons" in HELP.keys() else []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     await event.edit(
         get_string("inline_4").format(
             OWNER_NAME,
@@ -382,8 +380,7 @@ async def opner(event):
     PLUGINS = HELP["Official"] if "Official" in HELP.keys() else []
     ADDONS = HELP["Addons"] if "Addons" in HELP.keys() else []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     await event.edit(
         get_string("inline_4").format(
             OWNER_NAME,
@@ -566,17 +563,10 @@ def page_num(page_number, loaded_plugins, prefix, type_):
     multi = emoji or "✘"
     global upage
     upage = page_number
-    helpable_plugins = [p for p in loaded_plugins]
+    helpable_plugins = list(loaded_plugins)
     helpable_plugins = sorted(helpable_plugins)
     modules = [
-        Button.inline(
-            "{} {} {}".format(
-                multi,
-                x,
-                multi,
-            ),
-            data=f"{type_}_plugin_{x}",
-        )
+        Button.inline(f"{multi} {x} {multi}", data=f"{type_}_plugin_{x}")
         for x in helpable_plugins
     ]
     pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols]))

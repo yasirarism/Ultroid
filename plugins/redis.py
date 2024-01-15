@@ -36,10 +36,7 @@ async def _(ult):
         redisdata = Redis(data[0])
         await eor(
             ult,
-            "Redis Key Value Pair Updated\nKey : `{}`\nValue : `{}`".format(
-                data[0],
-                redisdata,
-            ),
+            f"Redis Key Value Pair Updated\nKey : `{data[0]}`\nValue : `{redisdata}`",
         )
     except BaseException:
         await eor(ult, "`Something Went Wrong`")
@@ -66,10 +63,7 @@ async def _(ult):
             udB.rename(data[0], data[1])
             await eor(
                 ult,
-                "Redis Key Rename Successful\nOld Key : `{}`\nNew Key : `{}`".format(
-                    data[0],
-                    data[1],
-                ),
+                f"Redis Key Rename Successful\nOld Key : `{data[0]}`\nNew Key : `{data[1]}`",
             )
         except BaseException:
             await eor(ult, "Something went wrong ...")

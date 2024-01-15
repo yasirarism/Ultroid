@@ -69,7 +69,7 @@ async def _(event):
         reply_message = await event.get_reply_message()
         try:
             downloaded_file_name = await downloader(
-                "resources/downloads/" + reply_message.file.name,
+                f"resources/downloads/{reply_message.file.name}",
                 reply_message.media.document,
                 mone,
                 dddd,
@@ -85,9 +85,7 @@ async def _(event):
         end = datetime.now()
         ms = (end - start).seconds
         required_file_name = filename
-        await mone.edit(
-            f"Downloaded to `{filename}` in {ms} seconds.",
-        )
+        await mone.edit(f"Downloaded to `{required_file_name}` in {ms} seconds.")
     elif input_str:
         input_str = input_str.strip()
         if os.path.exists(input_str):
@@ -130,10 +128,7 @@ async def sch(event):
     input_str = event.pattern_match.group(1).strip()
     a = await eor(event, f"Searching for {input_str} in G-Drive.")
     if Redis("GDRIVE_FOLDER_ID") is not None:
-        query = "'{}' in parents and (title contains '{}')".format(
-            Redis("GDRIVE_FOLDER_ID"),
-            input_str,
-        )
+        query = f"""'{Redis("GDRIVE_FOLDER_ID")}' in parents and (title contains '{input_str}')"""
     else:
         query = f"title contains '{input_str}'"
     try:

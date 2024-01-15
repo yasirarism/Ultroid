@@ -78,7 +78,6 @@ async def ChatActionsHandler(ult):  # sourcery no-metrics
             except Exception as er:
                 LOGS.exception(er)
 
-        # greetings
         elif get_welcome(ult.chat_id):
             user = await ult.get_user()
             chat = await ult.get_chat()
@@ -90,11 +89,10 @@ async def ChatActionsHandler(ult):  # sourcery no-metrics
             uu = user.username
             username = f"@{uu}" if uu else mention
             wel = get_welcome(ult.chat_id)
-            msgg = wel["welcome"]
             med = wel["media"] or None
             userid = user.id
             msg = None
-            if msgg:
+            if msgg := wel["welcome"]:
                 msg = msgg.format(
                     mention=mention,
                     group=title,
@@ -127,11 +125,10 @@ async def ChatActionsHandler(ult):  # sourcery no-metrics
         uu = user.username
         username = f"@{uu}" if uu else mention
         wel = get_goodbye(ult.chat_id)
-        msgg = wel["goodbye"]
         med = wel["media"]
         userid = user.id
         msg = None
-        if msgg:
+        if msgg := wel["goodbye"]:
             msg = msgg.format(
                 mention=mention,
                 group=title,

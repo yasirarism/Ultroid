@@ -76,8 +76,7 @@ async def broadcast_adder(event):
     if int(chat_id) == int(udB.get("LOG_CHANNEL")):
         return
     if not is_channel_added(chat_id):
-        xx = add_channel(chat_id)
-        if xx:
+        if xx := add_channel(chat_id):
             await x.edit(get_string("bd_5"))
         else:
             await x.edit(get_string("sf_8"))

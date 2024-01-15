@@ -53,11 +53,11 @@ async def vnc(e):
     dl = r.file.name
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f"resources/downloads/{dl}",
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f"Downloading {dl}...",
     )
     await xxx.edit(get_string("audiotools_2"))
     await bash(
@@ -92,11 +92,11 @@ async def trim_aud(e):
         xxx = await eor(e, get_string("audiotools_5"))
         c_time = time.time()
         file = await downloader(
-            "resources/downloads/" + name,
+            f"resources/downloads/{name}",
             vfile,
             xxx,
             c_time,
-            "Downloading " + name + "...",
+            f"Downloading {name}...",
         )
         o_size = os.path.getsize(file.name)
         d_time = time.time()
@@ -114,13 +114,7 @@ async def trim_aud(e):
         await bash(cmd)
         os.remove(file.name)
         f_time = time.time()
-        mmmm = await uploader(
-            out,
-            out,
-            f_time,
-            xxx,
-            "Uploading " + out + "...",
-        )
+        mmmm = await uploader(out, out, f_time, xxx, f"Uploading {out}...")
         data = await metadata(out)
         artist = data["performer"]
         duration = data["duration"]
@@ -157,13 +151,13 @@ async def ex_aud(e):
     msg = await eor(e, get_string("com_1"))
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + name,
+        f"resources/downloads/{name}",
         vfile,
         msg,
         c_time,
-        "Downloading " + name + "...",
+        f"Downloading {name}...",
     )
-    out_file = file.name + ".aac"
+    out_file = f"{file.name}.aac"
     cmd = f"ffmpeg -i {file.name} -vn -acodec copy {out_file}"
     o, err = await bash(cmd)
     os.remove(file.name)
@@ -183,11 +177,7 @@ async def ex_aud(e):
     f_time = time.time()
     try:
         fo = await uploader(
-            out_file,
-            out_file,
-            f_time,
-            msg,
-            "Uploading " + out_file + "...",
+            out_file, out_file, f_time, msg, f"Uploading {out_file}..."
         )
     except FileNotFoundError:
         return await eor(msg, get_string("audiotools_9"))

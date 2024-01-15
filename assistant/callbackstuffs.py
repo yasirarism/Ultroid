@@ -109,7 +109,7 @@ async def update(eve):
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
         heroku_git_url = heroku_app.git_url.replace(
-            "https://", "https://api:" + heroku_api + "@"
+            "https://", f"https://api:{heroku_api}@"
         )
         if "heroku" in repo.remotes:
             remote = repo.remote("heroku")
@@ -183,7 +183,7 @@ async def _(e):
     ok = (e.data_match.group(1)).decode("UTF-8")
     with open(ok, "r") as hmm:
         _, key = await get_paste(hmm.read())
-    link = "https://spaceb.in/" + key
+    link = f"https://spaceb.in/{key}"
     raw = f"https://spaceb.in/api/v1/documents/{key}/raw"
     if not _:
         return await e.answer(key[:30], alert=True)
@@ -345,7 +345,7 @@ async def rhwhe(e):
     else:
         udB.set("DUAL_MODE", "True")
         key = "On"
-    Msg = "Dual Mode : " + key
+    Msg = f"Dual Mode : {key}"
     await e.edit(Msg, buttons=get_back_button("otvars"))
 
 
@@ -436,10 +436,7 @@ async def pluginch(event):
         else:
             await setit(event, var, themssg)
             await conv.send_message(
-                "{} changed to {}\n After Setting All Things Do Restart".format(
-                    name,
-                    themssg,
-                ),
+                f"{name} changed to {themssg}\n After Setting All Things Do Restart",
                 buttons=get_back_button("otvars"),
             )
 
@@ -725,10 +722,7 @@ async def name(event):
             )
         await setit(event, var, themssg)
         await conv.send_message(
-            "{} changed to {}\n\nAfter Setting All Things Do restart".format(
-                name,
-                themssg,
-            ),
+            f"{name} changed to {themssg}\n\nAfter Setting All Things Do restart",
             buttons=get_back_button("alvcstm"),
         )
 
@@ -873,10 +867,7 @@ async def name(event):
             )
         await setit(event, var, themssg)
         await conv.send_message(
-            "{} changed to {}\n\nAfter Setting All Things Do restart".format(
-                name,
-                themssg,
-            ),
+            f"{name} changed to {themssg}\n\nAfter Setting All Things Do restart",
             buttons=get_back_button("pmcstm"),
         )
 
@@ -896,8 +887,7 @@ async def name(event):
 @callback(re.compile(b"wrns_(.*)"), owner=True)
 async def set_wrns(event):
     value = int(event.data_match.group(1).decode("UTF-8"))
-    dn = udB.set("PMWARNS", value)
-    if dn:
+    if dn := udB.set("PMWARNS", value):
         await event.edit(
             f"PM Warns Set to {value}.\nNew users will have {value} chances in PMs before getting banned.",
             buttons=get_back_button("pmcstm"),
@@ -1203,11 +1193,7 @@ async def name(event):
             )
         await setit(event, var, themssg)
         await conv.send_message(
-            "{} changed to {}".format(
-                name,
-                themssg,
-            ),
-            buttons=get_back_button("chatbot"),
+            f"{name} changed to {themssg}", buttons=get_back_button("chatbot")
         )
 
 
@@ -1272,10 +1258,7 @@ async def name(event):
             )
         await setit(event, var, themssg)
         await conv.send_message(
-            "{} changed to {}\n\nAfter Setting All Things Do restart".format(
-                name,
-                themssg,
-            ),
+            f"{name} changed to {themssg}\n\nAfter Setting All Things Do restart",
             buttons=get_back_button("vcb"),
         )
 

@@ -25,8 +25,7 @@ from . import eod, eor, get_string, text_set, ultroid_cmd
 
 @ultroid_cmd(pattern="image ?(.*)")
 async def f2i(e):
-    txt = e.pattern_match.group(1)
-    if txt:
+    if txt := e.pattern_match.group(1):
         html = e.text.split(maxsplit=1)[1]
     elif e.reply_to:
         r = await e.get_reply_message()
