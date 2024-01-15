@@ -37,8 +37,7 @@ async def _(e):
 
 @ultroid_cmd(pattern="listclean$")
 async def _(e):
-    k = udB.get("CLEANCHAT")
-    if k:
+    if k := udB.get("CLEANCHAT"):
         k = k.split(" ")
         o = ""
         for x in k:
@@ -46,7 +45,7 @@ async def _(e):
                 title = e.chat.title
             except BaseException:
                 title = get_string("clan_3")
-            o += x + " " + title + "\n"
+            o += f"{x} {title}" + "\n"
         await eor(e, o)
     else:
         await eor(e, get_string("clan_4"), time=5)

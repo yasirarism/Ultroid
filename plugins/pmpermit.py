@@ -162,8 +162,7 @@ async def permitpm(event):
     if user.bot or user.is_self or user.verified or is_logger(user.id):
         return
     if Redis("PMLOG") == "True":
-        pl = udB.get("PMLOGGROUP")
-        if pl:
+        if pl := udB.get("PMLOGGROUP"):
             return await event.forward_to(int(pl))
         await event.forward_to(int(udB.get("LOG_CHANNEL")))
 
@@ -616,7 +615,7 @@ async def list_approved(event):
             tabulate(users, headers=["UserName", "UserID"], showindex="always")
         )
     await event.reply(
-        "List of users approved by [{}](tg://user?id={})".format(OWNER_NAME, OWNER_ID),
+        f"List of users approved by [{OWNER_NAME}](tg://user?id={OWNER_ID})",
         file="approved_pms.txt",
     )
     await xx.delete()

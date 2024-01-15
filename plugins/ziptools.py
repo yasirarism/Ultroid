@@ -126,7 +126,7 @@ async def azipp(event):
         if hasattr(reply.media, "document"):
             file = reply.media.document
             image = await downloader(
-                "zip/" + reply.file.name,
+                f"zip/{reply.file.name}",
                 reply.media.document,
                 xx,
                 t,

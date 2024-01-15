@@ -131,12 +131,7 @@ async def _(event):
         evaluation = stdout
     else:
         evaluation = get_string("instu_4")
-    final_output = (
-        "__►__ **EVALPy**\n```{}``` \n\n __►__ **OUTPUT**: \n```{}``` \n".format(
-            cmd,
-            evaluation,
-        )
-    )
+    final_output = f"__►__ **EVALPy**\n```{cmd}``` \n\n __►__ **OUTPUT**: \n```{evaluation}``` \n"
     if len(final_output) > 4096:
         ultd = final_output.replace("`", "").replace("**", "").replace("__", "")
         with io.BytesIO(str.encode(ultd)) as out_file:

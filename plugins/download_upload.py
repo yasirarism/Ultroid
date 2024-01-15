@@ -94,20 +94,20 @@ async def download(event):
             return await eor(xx, get_string("udl_1"), time=5)
         if hasattr(ok.media, "document"):
             file = ok.media.document
-            mime_type = file.mime_type
             filename = event.pattern_match.group(1) or ok.file.name
             if not filename:
+                mime_type = file.mime_type
                 if "audio" in mime_type:
                     filename = "audio_" + dt.now().isoformat("_", "seconds") + ".ogg"
                 elif "video" in mime_type:
                     filename = "video_" + dt.now().isoformat("_", "seconds") + ".mp4"
             try:
                 result = await downloader(
-                    "resources/downloads/" + filename,
+                    f"resources/downloads/{filename}",
                     file,
                     xx,
                     k,
-                    "Downloading " + filename + "...",
+                    f"Downloading {filename}...",
                 )
             except MessageNotModifiedError as err:
                 return await xx.edit(str(err))

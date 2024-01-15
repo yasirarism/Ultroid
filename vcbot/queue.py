@@ -25,15 +25,15 @@ async def lstqueue(event):
         if not chat.startswith("@"):
             chat = int(chat)
         try:
-            chat = int("-100" + str((await vcClient.get_entity(chat)).id))
+            chat = int(f"-100{str((await vcClient.get_entity(chat)).id)}")
         except Exception as e:
             return await eor(event, get_string("vcbot_2").format(str(e)))
     else:
         chat = event.chat_id
-    q = list_queue(chat)
-    if not q:
+    if q := list_queue(chat):
+        await eor(event, f"• <strong>Queue:</strong>\n\n{q}", parse_mode="html")
+    else:
         return await eor(event, get_string('vcbot_21'))
-    await eor(event, "• <strong>Queue:</strong>\n\n{}".format(q), parse_mode="html")
 
 @vc_asst("clearqueue")
 async def clean_queue(event):
@@ -42,9 +42,9 @@ async def clean_queue(event):
         if not chat.startswith("@"):
             chat = int(chat)
         try:
-            chat = int("-100" + str((await vcClient.get_entity(chat)).id))
+            chat = int(f"-100{str((await vcClient.get_entity(chat)).id)}")
         except Exception as e:
-            return await eor(event, "**ERROR:**\n{}".format(str(e)))
+            return await eor(event, f"**ERROR:**\n{str(e)}")
     else:
         chat = event.chat_id
     if VC_QUEUE.get(chat):

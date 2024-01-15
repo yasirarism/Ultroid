@@ -55,8 +55,7 @@ async def _(event):
     if len(event.text) > 3 and event.text[3] != " ":
         return
     input = event.text[4:6]
-    txt = event.text[7:]
-    if txt:
+    if txt := event.text[7:]:
         text = txt
         lan = input or "en"
     elif event.is_reply:
@@ -89,35 +88,23 @@ async def _(event):
             bot_api_file_id = pack_bot_file_id(r_msg.media)
             await eor(
                 event,
-                "**Current Chat ID:**  `{}`\n**From User ID:**  `{}`\n**Bot API File ID:**  `{}`\n**Msg ID:**  `{}`".format(
-                    str(event.chat_id),
-                    str(r_msg.sender_id),
-                    bot_api_file_id,
-                    str(r_msg.id),
-                ),
+                f"**Current Chat ID:**  `{str(event.chat_id)}`\n**From User ID:**  `{str(r_msg.sender_id)}`\n**Bot API File ID:**  `{bot_api_file_id}`\n**Msg ID:**  `{str(r_msg.id)}`",
             )
         else:
             await eor(
                 event,
-                "**Chat ID:**  `{}`\n**User ID:**  `{}`\n**Msg ID:**  `{}`".format(
-                    str(event.chat_id), str(r_msg.sender_id), str(r_msg.id)
-                ),
+                f"**Chat ID:**  `{str(event.chat_id)}`\n**User ID:**  `{str(r_msg.sender_id)}`\n**Msg ID:**  `{str(r_msg.id)}`",
             )
     elif event.pattern_match.group(1):
         ids = await get_user_id(event.pattern_match.group(1))
         await eor(
             event,
-            "**Chat ID:**  `{}`\n**User ID:**  `{}`".format(
-                str(event.chat_id),
-                str(ids),
-            ),
+            f"**Chat ID:**  `{str(event.chat_id)}`\n**User ID:**  `{str(ids)}`",
         )
     else:
         await eor(
             event,
-            "**Current Chat ID:**  `{}`\n**Msg ID:**  `{}`".format(
-                str(event.chat_id), str(event.id)
-            ),
+            f"**Current Chat ID:**  `{str(event.chat_id)}`\n**Msg ID:**  `{str(event.id)}`",
         )
 
 
@@ -141,19 +128,11 @@ async def _(ult):
             filter=ChannelParticipantsBots,
         ):
             if isinstance(x.participant, ChannelParticipantAdmin):
-                mentions += "\n ⚜️ [{}](tg://user?id={}) `{}`".format(
-                    x.first_name,
-                    x.id,
-                    x.id,
-                )
+                mentions += f"\n ⚜️ [{x.first_name}](tg://user?id={x.id}) `{x.id}`"
             else:
-                mentions += "\n [{}](tg://user?id={}) `{}`".format(
-                    x.first_name,
-                    x.id,
-                    x.id,
-                )
+                mentions += f"\n [{x.first_name}](tg://user?id={x.id}) `{x.id}`"
     except Exception as e:
-        mentions += " " + str(e) + "\n"
+        mentions += f" {str(e)}" + "\n"
     await eor(ult, mentions)
 
 
@@ -165,7 +144,7 @@ async def _(ult):
         input = ult.text.split(" ", maxsplit=1)[1]
     except IndexError:
         return await eor(ult, "`Input some link`", time=5)
-    await eor(ult, "[ㅤㅤㅤㅤㅤㅤㅤ](" + input + ")", link_preview=False)
+    await eor(ult, f"[ㅤㅤㅤㅤㅤㅤㅤ]({input})", link_preview=False)
 
 
 @ultroid_cmd(
@@ -194,7 +173,7 @@ async def _(e):
             cv2.imwrite("img.png", output)
             thumb = "img.png"
         c = await downloader(
-            "resources/downloads/" + a.file.name,
+            f"resources/downloads/{a.file.name}",
             a.media.document,
             z,
             toime,
@@ -246,13 +225,12 @@ async def _(e):
     if not files:
         files = "*"
     elif files.endswith("/"):
-        files = files + "*"
+        files = f"{files}*"
     elif "*" not in files:
-        files = files + "/*"
+        files = f"{files}/*"
     files = glob.glob(files)
     if not files:
         return await eor(e, "`Directory Empty or Incorrect.`", time=5)
-    pyfiles = []
     jsons = []
     vdos = []
     audios = []
@@ -265,33 +243,34 @@ async def _(e):
     exe = []
     zip_ = []
     book = []
+    pyfiles = []
     for file in sorted(files):
         if os.path.isdir(file):
-            folders.append("📂 " + str(file))
+            folders.append(f"📂 {str(file)}")
         elif str(file).endswith(".py"):
-            pyfiles.append("🐍 " + str(file))
+            pyfiles.append(f"🐍 {str(file)}")
         elif str(file).endswith(".json"):
-            jsons.append("🔮 " + str(file))
+            jsons.append(f"🔮 {str(file)}")
         elif str(file).endswith((".mkv", ".mp4", ".avi", ".gif", "webm")):
-            vdos.append("🎥 " + str(file))
+            vdos.append(f"🎥 {str(file)}")
         elif str(file).endswith((".mp3", ".ogg", ".m4a", ".opus")):
-            audios.append("🔊 " + str(file))
+            audios.append(f"🔊 {str(file)}")
         elif str(file).endswith((".jpg", ".jpeg", ".png", ".webp")):
-            pics.append("🖼 " + str(file))
+            pics.append(f"🖼 {str(file)}")
         elif str(file).endswith((".txt", ".text", ".log")):
-            text.append("📄 " + str(file))
+            text.append(f"📄 {str(file)}")
         elif str(file).endswith((".apk", ".xapk")):
-            apk.append("📲 " + str(file))
+            apk.append(f"📲 {str(file)}")
         elif str(file).endswith(".exe"):
-            exe.append("⚙ " + str(file))
+            exe.append(f"⚙ {str(file)}")
         elif str(file).endswith((".zip", ".rar")):
-            zip_.append("🗜 " + str(file))
+            zip_.append(f"🗜 {str(file)}")
         elif str(file).endswith((".pdf", ".epub")):
-            book.append("📗 " + str(file))
+            book.append(f"📗 {str(file)}")
         elif "." in str(file)[1:]:
-            others.append("🏷 " + str(file))
+            others.append(f"🏷 {str(file)}")
         else:
-            otherfiles.append("📒 " + str(file))
+            otherfiles.append(f"📒 {str(file)}")
     omk = [
         *sorted(folders),
         *sorted(pyfiles),
@@ -322,23 +301,17 @@ async def _(e):
                         fp = os.path.join(path, f)
                         size += os.path.getsize(fp)
                 if hb(size):
-                    text += emoji + f" `{nam}`" + "  `" + hb(size) + "`\n"
+                    text += f"{emoji} `{nam}`  `{hb(size)}" + "`\n"
                     fos += size
                 else:
-                    text += emoji + f" `{nam}`" + "\n"
+                    text += f"{emoji} `{nam}`" + "\n"
                 foc += 1
             else:
                 if hb(int(os.path.getsize(name))):
-                    text += (
-                        emoji
-                        + f" `{nam}`"
-                        + "  `"
-                        + hb(int(os.path.getsize(name)))
-                        + "`\n"
-                    )
+                    text += f"{emoji} `{nam}`  `{hb(int(os.path.getsize(name)))}" + "`\n"
                     fls += int(os.path.getsize(name))
                 else:
-                    text += emoji + f" `{nam}`" + "\n"
+                    text += f"{emoji} `{nam}`" + "\n"
                 flc += 1
         except BaseException:
             pass

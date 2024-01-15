@@ -46,14 +46,14 @@ async def an(e):
             dl = await wt.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://telegra.ph{variable[0]}"
         elif wut == "video":
             if wt.media.document.size > 8 * 1000 * 1000:
                 return await eor(e, get_string("com_4"), time=5)
             dl = await wt.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://telegra.ph{variable[0]}"
         else:
             m = pack_bot_file_id(wt.media)
         if wt.text:
@@ -84,8 +84,7 @@ async def rs(e):
 
 @ultroid_cmd(pattern="listsnip")
 async def lsnote(e):
-    x = list_snip()
-    if x:
+    if x := list_snip():
         sd = "SNIPS Found :\n\n"
         await eor(e, sd + x)
     else:
@@ -98,8 +97,7 @@ async def notes(e):
         return
     xx = [z.replace("$", "") for z in e.text.lower().split() if z.startswith("$")]
     for z in xx:
-        k = get_snips(z)
-        if k:
+        if k := get_snips(z):
             msg = k["msg"]
             media = k["media"]
             rep = await e.get_reply_message()

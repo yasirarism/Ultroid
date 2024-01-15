@@ -39,7 +39,7 @@ async def _(event):
             bb.media.document,
             xx,
             ccc,
-            "Downloading " + bb.file.name + "...",
+            f"Downloading {bb.file.name}...",
         )
         file_name = naam.name
     except BaseException:

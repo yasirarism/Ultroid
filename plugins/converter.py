@@ -54,7 +54,7 @@ async def _(e):
         return await eor(e, "`Reply to Photo or media with thumb...`")
     variable = uf(dl)
     os.remove(dl)
-    nn = "https://telegra.ph" + variable[0]
+    nn = f"https://telegra.ph{variable[0]}"
     udB.set("CUSTOM_THUMBNAIL", str(nn))
     await bash(f"wget {nn} -O resources/extras/ultroid.jpg")
     await eor(e, get_string("cvt_6").format(nn), link_preview=False)

@@ -198,7 +198,7 @@ async def siesace(e):
     if not song:
         return await eod(lol, get_string("srch_3"))
     title = song.split(".")[0]
-    okk = await uploader(song, song, hmm, lol, "Uploading " + title + "...")
+    okk = await uploader(song, song, hmm, lol, f"Uploading {title}...")
     await e.reply(
         file=okk,
         message=f"`{title}`\n`From Saavn`",

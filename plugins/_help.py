@@ -37,8 +37,7 @@ _main_help_menu = [
 
 @ultroid_cmd(pattern="help ?(.*)")
 async def _help(ult):
-    plug = ult.pattern_match.group(1)
-    if plug:
+    if plug := ult.pattern_match.group(1):
         try:
             if plug in HELP["Official"]:
                 output = f"**Plugin** - `{plug}`\n"
@@ -77,8 +76,7 @@ async def _help(ult):
         except BotMethodInvalidError:
             z = []
             for x in LIST.values():
-                for y in x:
-                    z.append(y)
+                z.extend(iter(x))
             cmd = len(z) + 10
             if udB.get("MANAGER") and udB.get("DUAL_HNDLR") == "/":
                 _main_help_menu[2:3] = [[Button.inline("• Manager Help •", "mngbtn")]]
